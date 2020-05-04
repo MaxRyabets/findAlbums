@@ -1,0 +1,32 @@
+.container {
+  margin-top: 25px;
+}
+
+.form-row {
+  justify-content: center;
+}
+
+form button {
+  background: #2196F3;
+  color: white;
+  font-size: 17px;
+  border: 1px solid grey;
+  border-left: none;
+  cursor: pointer;
+}
+
+form button:hover {
+  background: #0b7dda;
+}
+
+table {
+  margin-top: 12px;
+}
+tr, thead {
+  text-align: center;
+}
+
+tr:hover {
+  background-color: aquamarine
+}
+
