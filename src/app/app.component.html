@@ -7,10 +7,11 @@
             <input
               class="form-control"
               type="search"
-              placeholder="Enter your favorite artist"
+
               aria-label="Search"
               autofocus
               formControlName="querySearch"
+              [(ngModel)]="em"
             >
             <div class="input-group-append">
               <button class="btn btn-outline-secondary" type="submit"><i class="fa fa-search"></i></button>
@@ -24,28 +25,39 @@
     <table class="table table-sm">
       <thead class="thead-dark">
       <tr>
-        <th scope="col">#</th>
-        <th scope="col">Artist</th>
-        <th scope="col">Image</th>
-        <th scope="col">Barcode</th>
-        <th scope="col">City</th>
-        <th scope="col">Address</th>
-        <th scope="col">Size</th>
-        <th scope="col">Color</th>
-        <th scope="col">Price</th>
-        <th scope="col">Discount</th>
-        <th scope="col">Set Discount</th>
-        <th scope="col">Date</th>
-        <th scope="col">Premium</th>
-        <th scope="col">Actions</th>
+        <th scope="col">Picture</th>
+        <th scope="col">Name</th>
+        <!--<th scope="col">Tracklist</th>-->
       </tr>
       </thead>
       <tbody class="accordion">
       <tr
-        *ngFor="let track of tracks"
+        *ngFor="let curArtist of currentArtiest let idx = index"
         class="accordion-item"
       >
-        <td>track</td>
+        <td><img src="{{curArtist.picture}}" alt="{{idx}}"></td>
+        <td>{{curArtist.name}}</td>
+      </tr>
+      </tbody>
+    </table>
+
+  <div class="col-md-12">
+    <table class="table table-sm">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Title</th>
+        <th scope="col">Cover</th>
+      </tr>
+      </thead>
+      <tbody class="accordion">
+      <tr
+        *ngFor="let album of albums; let idx = index"
+        class="accordion-item"
+      >
+        <td>{{idx + 1}}</td>
+        <td><img src="{{album.cover}}" alt="idx + 1"></td>
+        <td>{{album.title}}</td>
       </tr>
       </tbody>
     </table>

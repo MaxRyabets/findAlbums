@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { TracksService } from './tracks.service';
 import { SearchPipe } from './search.pipe';
+import {CommonModule} from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { SearchPipe } from './search.pipe';
     SearchPipe
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     NgbModule,
     FormsModule,
