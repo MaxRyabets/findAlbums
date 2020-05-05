@@ -21,45 +21,52 @@
       </div>
     </div>
   </form>
-  <div class="col-md-12">
-    <table class="table table-sm">
-      <thead class="thead-dark">
-      <tr>
-        <th scope="col">Picture</th>
-        <th scope="col">Name</th>
-        <!--<th scope="col">Tracklist</th>-->
-      </tr>
-      </thead>
-      <tbody class="accordion">
-      <tr
-        *ngFor="let curArtist of currentArtiest let idx = index"
-        class="accordion-item"
-      >
-        <td><img src="{{curArtist.picture}}" alt="{{idx}}"></td>
-        <td>{{curArtist.name}}</td>
-      </tr>
-      </tbody>
-    </table>
-
-  <div class="col-md-12">
-    <table class="table table-sm">
-      <thead class="thead-dark">
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Title</th>
-        <th scope="col">Cover</th>
-      </tr>
-      </thead>
-      <tbody class="accordion">
-      <tr
-        *ngFor="let album of albums; let idx = index"
-        class="accordion-item"
-      >
-        <td>{{idx + 1}}</td>
-        <td><img src="{{album.cover}}" alt="idx + 1"></td>
-        <td>{{album.title}}</td>
-      </tr>
-      </tbody>
-    </table>
+  <div *ngIf="albums.length">
+    <div class="col-md-12">
+      <table class="table table-sm">
+        <thead class="thead-dark">
+        <tr>
+          <th scope="col">Picture</th>
+          <th scope="col">Name</th>
+          <!--<th scope="col">Tracklist</th>-->
+        </tr>
+        </thead>
+        <tbody class="accordion">
+        <tr
+          *ngFor="let curArtist of currentArtiest let idx = index"
+          class="accordion-item"
+        >
+          <td><img src="{{curArtist.picture}}" alt="{{idx}}"></td>
+          <td>{{curArtist.name}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-12">
+      <table class="table table-sm">
+        <thead class="thead-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Title</th>
+          <th scope="col">Cover</th>
+          <th scope="col">Explicit lyrics</th>
+        </tr>
+        </thead>
+        <tbody class="accordion">
+        <tr
+          *ngFor="let album of albums; let idx = index"
+          class="accordion-item"
+        >
+          <td>{{idx + 1}}</td>
+          <td><img src="{{album.cover}}" alt="idx + 1"></td>
+          <td>{{album.title}}</td>
+          <td>{{album.explicit_lyrics ? 'Yes' : 'No'}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <button id="next" class="btn badge-info" type="submit" (click)="nextAlbum()">Next</button>
+    <button id="prev" class="btn badge-info" type="submit" [ngStyle]="dataPrev.length && {'display': 'inline-block'}" (click)="prevAlbum()">Prev</button>
   </div>
 </div>
+

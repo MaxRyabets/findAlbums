@@ -30,3 +30,15 @@ tr:hover {
   background-color: aquamarine
 }
 
+.table td, .table th {
+  vertical-align: unset;
+}
+
+#next {
+  float: right;
+}
+
+#prev {
+  float: left;
+  display: none;
+}
