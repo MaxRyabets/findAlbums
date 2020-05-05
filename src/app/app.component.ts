@@ -1,10 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {TracksService} from './tracks.service';
-import {Subscription} from 'rxjs';
+import {forkJoin, Observable, Subscription} from 'rxjs';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {log} from 'util';
-import {map} from 'rxjs/operators';
-import {hasOwnProperty} from 'tslint/lib/utils';
+import {tap} from 'rxjs/operators';
 
 interface Artiest {
   picture: string;
@@ -54,8 +52,12 @@ export class AppComponent implements OnInit{
     this.dataPrev = '';
     const querySearch: string = this.form.getRawValue().querySearch;
     this.pSub = this.tracksService.getAll(querySearch).subscribe(dataAlbum => {
+      console.log(dataAlbum);
       this.addArtistAlbum(dataAlbum.data);
       this.dataNext = dataAlbum.next;
+    });
+    const test = this.tracksService.getAllData(querySearch).subscribe(dataAlbum => {
+      console.log(dataAlbum);
     });
   }
 
