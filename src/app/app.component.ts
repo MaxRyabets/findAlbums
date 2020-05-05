@@ -60,11 +60,7 @@ export class AppComponent implements OnInit{
   }
 
   private addArtistAlbum(dataAlbum: object) {
-    this.albums = Object.values(dataAlbum).map(data => ({
-        cover: data.cover,
-        title: data.title,
-        explicit_lyrics: data.explicit_lyrics
-    }));
+    this.albums = this.tracksService.createAlbum(dataAlbum);
     this.currentArtiest.length = 0;
     this.currentArtiest.push({picture: dataAlbum[0].artist.picture, name: dataAlbum[0].artist.name});
     this.sortAlbum();
@@ -82,22 +78,21 @@ export class AppComponent implements OnInit{
     });
   }
 
-  nextAlbum() {
-    this.pSub = this.tracksService.getAllNext(this.dataNext).subscribe(dataAlbum => {
+  nextPrevAlbum($event: MouseEvent) {
+    let prevNext = '';
+    // @ts-ignore
+    if ($event.target.id === 'prev'){
+      prevNext = this.dataPrev;
+    } else {
+      prevNext = this.dataNext;
+    }
+    this.pSub = this.tracksService.getAllNextPrev(prevNext).subscribe(dataAlbum => {
       this.addArtistAlbum(dataAlbum.data);
       this.dataNext = dataAlbum.next;
-      this.dataPrev = dataAlbum.prev;
-    });
-  }
-
-  prevAlbum() {
-    this.pSub = this.tracksService.getAllPrev(this.dataPrev).subscribe(dataAlbum => {
-      if (!dataAlbum.hasOwnProperty(dataAlbum.prev)) {
+      if (!dataAlbum.hasOwnProperty('prev')){
         this.dataPrev = '';
         return;
       }
-      this.addArtistAlbum(dataAlbum.data);
-      this.dataNext = dataAlbum.next;
       this.dataPrev = dataAlbum.prev;
     });
   }

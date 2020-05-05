@@ -65,8 +65,8 @@
         </tbody>
       </table>
     </div>
-    <button id="next" class="btn badge-info" type="submit" (click)="nextAlbum()">Next</button>
-    <button id="prev" class="btn badge-info" type="submit" [ngStyle]="dataPrev.length && {'display': 'inline-block'}" (click)="prevAlbum()">Prev</button>
+    <button id="next" class="btn badge-info" type="submit" (click)="nextPrevAlbum($event)">Next</button>
+    <button id="prev" class="btn badge-info" type="submit" [ngStyle]="dataPrev.length && {'display': 'inline-block'}" (click)="nextPrevAlbum($event)">Prev</button>
   </div>
 </div>
 
