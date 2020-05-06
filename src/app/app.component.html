@@ -21,7 +21,7 @@
       </div>
     </div>
   </form>
-  <div *ngIf="albums.length">
+  <div *ngIf="deezerAlbums.length && itunesAlbums.length">
     <div class="col-md-12">
       <table class="table table-sm">
         <thead class="thead-dark">
@@ -42,31 +42,68 @@
         </tbody>
       </table>
     </div>
-    <div class="col-md-12">
-      <table class="table table-sm">
-        <thead class="thead-dark">
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Title</th>
-          <th scope="col">Cover</th>
-          <th scope="col">Explicit lyrics</th>
-        </tr>
-        </thead>
-        <tbody class="accordion">
-        <tr
-          *ngFor="let album of albums; let idx = index"
-          class="accordion-item"
-        >
-          <td>{{idx + 1}}</td>
-          <td><img src="{{album.cover}}" alt="idx + 1"></td>
-          <td>{{album.title}}</td>
-          <td>{{album.explicit_lyrics ? 'Yes' : 'No'}}</td>
-        </tr>
-        </tbody>
-      </table>
+    <div class="row">
+      <div class="col-md-6">
+        <table class="table table-sm">
+          <thead class="thead-dark">
+          <tr>
+            <th scope="col">Album</th>
+            <th scope="col">Cover</th>
+            <th scope="col">Title</th>
+            <th scope="col">Explicit lyrics</th>
+          </tr>
+          </thead>
+          <tbody class="accordion">
+          <tr
+            *ngFor="let deezerAlbum of deezerAlbums; let idx = index"
+            class="accordion-item"
+          >
+            <td>{{idx + 1}}</td>
+            <td><img src="{{deezerAlbum.cover}}" alt="idx + 1"></td>
+            <td>{{deezerAlbum.title}}</td>
+            <td>{{deezerAlbum.explicit_lyrics ? 'Yes' : 'No'}}</td>
+          </tr>
+          </tbody>
+        </table>
+        <button
+          (click)="nextPrevAlbum($event)"
+          id="next"
+          class="btn badge-info"
+          type="submit"
+        >Next</button>
+        <button
+          [ngStyle]="dataPrev.length && {'display': 'inline-block'}"
+          (click)="nextPrevAlbum($event)"
+          id="prev"
+          class="btn badge-info"
+          type="submit"
+        >Prev</button>
+      </div>
+
+      <div class="col-md-6">
+        <table class="table table-sm">
+          <thead class="thead-dark">
+          <tr>
+            <th scope="col">Album</th>
+            <th scope="col">Cover</th>
+            <th scope="col">Title</th>
+            <th scope="col">Price</th>
+          </tr>
+          </thead>
+          <tbody class="accordion">
+          <tr
+            *ngFor="let itunesAlbum of itunesAlbums; let idx = index"
+            class="accordion-item"
+          >
+            <td>{{idx + 1}}</td>
+            <td><img src="{{itunesAlbum.artworkUrl60}}" alt="idx + 1"></td>
+            <td>{{itunesAlbum.collectionName}}</td>
+            <td>{{itunesAlbum.collectionPrice + '$'}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <button id="next" class="btn badge-info" type="submit" (click)="nextPrevAlbum($event)">Next</button>
-    <button id="prev" class="btn badge-info" type="submit" [ngStyle]="dataPrev.length && {'display': 'inline-block'}" (click)="nextPrevAlbum($event)">Prev</button>
   </div>
 </div>
 

@@ -1,19 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {TracksService} from './tracks.service';
-import {forkJoin, Observable, Subscription} from 'rxjs';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {tap} from 'rxjs/operators';
-
-interface Artiest {
-  picture: string;
-  name: string;
-}
-
-interface Album {
-  cover: string;
-  title: string;
-  explicit_lyrics: boolean;
-}
+import { Component, OnInit } from '@angular/core';
+import { TracksService } from './tracks.service';
+import { Subscription } from 'rxjs';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {Artiest, DeezerAlbum, ITunes} from './shared/interfaces';
 
 @Component({
   selector: 'app-root',
@@ -23,12 +12,13 @@ interface Album {
 export class AppComponent implements OnInit{
   pSub: Subscription;
   dSub: Subscription;
-  albums: Album[] = [];
-  currentArtiest: Artiest[] = [];
   form: FormGroup;
   em = 'eminem';
   dataNext: string;
   dataPrev = '';
+  itunesAlbums: ITunes[] = [];
+  deezerAlbums: DeezerAlbum[] = [];
+  currentArtiest: Artiest[] = [];
 
   constructor(
     private tracksService: TracksService
@@ -51,25 +41,32 @@ export class AppComponent implements OnInit{
     this.dataNext = '';
     this.dataPrev = '';
     const querySearch: string = this.form.getRawValue().querySearch;
-    this.pSub = this.tracksService.getAll(querySearch).subscribe(dataAlbum => {
+    this.pSub = this.tracksService.getAllData(querySearch).subscribe(dataAlbum => {
       console.log(dataAlbum);
-      this.addArtistAlbum(dataAlbum.data);
-      this.dataNext = dataAlbum.next;
-    });
-    const test = this.tracksService.getAllData(querySearch).subscribe(dataAlbum => {
-      console.log(dataAlbum);
+      if (dataAlbum[0].hasOwnProperty('data')){
+        this.beginDeezer(dataAlbum[0]);
+        this.beginITunes(dataAlbum[1]);
+      } else {
+        this.beginDeezer(dataAlbum[1]);
+        this.beginITunes(dataAlbum[0]);
+      }
     });
   }
 
-  private addArtistAlbum(dataAlbum: object) {
-    this.albums = this.tracksService.createAlbum(dataAlbum);
+  private beginDeezer(dataAlbum: any) {
+    this.addDeezerArtistAlbum(dataAlbum.data);
+    this.dataNext = dataAlbum.next;
+  }
+
+  private addDeezerArtistAlbum(dataAlbum: object) {
+    this.deezerAlbums = this.tracksService.createDeezerAlbum(dataAlbum);
     this.currentArtiest.length = 0;
     this.currentArtiest.push({picture: dataAlbum[0].artist.picture, name: dataAlbum[0].artist.name});
     this.sortAlbum();
   }
 
   private sortAlbum() {
-    this.albums.sort( (a, b) => {
+    this.deezerAlbums.sort( (a, b) => {
       if (a.title > b.title) {
         return 1;
       }
@@ -89,7 +86,7 @@ export class AppComponent implements OnInit{
       prevNext = this.dataNext;
     }
     this.pSub = this.tracksService.getAllNextPrev(prevNext).subscribe(dataAlbum => {
-      this.addArtistAlbum(dataAlbum.data);
+      this.addDeezerArtistAlbum(dataAlbum.data);
       this.dataNext = dataAlbum.next;
       if (!dataAlbum.hasOwnProperty('prev')){
         this.dataPrev = '';
@@ -97,5 +94,10 @@ export class AppComponent implements OnInit{
       }
       this.dataPrev = dataAlbum.prev;
     });
+  }
+
+  private beginITunes(dataAlbum: any) {
+    this.itunesAlbums = this.tracksService.createITunesAlbum(dataAlbum)[1];
+    this.sortAlbum();
   }
 }

@@ -14,23 +14,37 @@ export class TracksService {
 
   getAllData(name: string): Observable<any> {
     return forkJoin([
-        this.http.get(`${this.proxy}https://api.deezer.com/search/album?q=${name}`),
+      this.http.get(`${this.proxy}https://api.deezer.com/search/album?q=${name}`),
       this.http.get(`${this.proxy}https://itunes.apple.com/search?term=${name}&entity=album&limit=25`)
     ]);
   }
-
-  getAll(name: string): Observable<any> {
+  /* Query for one api */
+  /*getAll(name: string): Observable<any> {
     return this.http.get(`${this.proxy}https://api.deezer.com/search/album?q=${name}`);
-  }
-  // return this.http.get(`https://cors-anywhere.herokuapp.com/https://itunes.apple.com/search?term=${name}&entity=album&limit=25=`);
+  }*/
+
   getAllNextPrev(url: string): Observable<any> {
     return this.http.get(`${this.proxy}${url}`);
   }
-  createAlbum(dataAlbum: object){
+
+  createDeezerAlbum(dataAlbum: object){
     return Object.values(dataAlbum).map(data => ({
       cover: data.cover,
       title: data.title,
       explicit_lyrics: data.explicit_lyrics
     }));
+  }
+
+  createITunesAlbum(dataAlbum: object){
+    return Object.values(dataAlbum).map(res => {
+        return Object.values(res).map(key => ({
+        // @ts-ignore
+          artworkUrl60: key.artworkUrl60,
+        // @ts-ignore
+          collectionName: key.collectionName,
+        // @ts-ignore
+          collectionPrice: key.collectionPrice
+      }));
+    });
   }
 }

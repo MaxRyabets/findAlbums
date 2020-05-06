@@ -34,6 +34,10 @@ tr:hover {
   vertical-align: unset;
 }
 
+button {
+  cursor: pointer;
+}
+
 #next {
   float: right;
 }

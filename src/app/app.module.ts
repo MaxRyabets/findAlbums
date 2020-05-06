@@ -7,7 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { TracksService } from './tracks.service';
 import { SearchPipe } from './search.pipe';
-import {CommonModule} from '@angular/common';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -15,12 +15,12 @@ import {CommonModule} from '@angular/common';
     SearchPipe
   ],
   imports: [
-    CommonModule,
     BrowserModule,
     NgbModule,
     FormsModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FontAwesomeModule
   ],
   providers: [TracksService],
   bootstrap: [AppComponent]
