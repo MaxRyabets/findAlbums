@@ -11,7 +11,7 @@
               aria-label="Search"
               autofocus
               formControlName="querySearch"
-              [(ngModel)]="em"
+              [(ngModel)]="defaultArtist"
             >
             <div class="input-group-append">
               <button class="btn btn-outline-secondary" type="submit"><i class="fa fa-search"></i></button>
@@ -21,8 +21,8 @@
       </div>
     </div>
   </form>
-  <div *ngIf="deezerAlbums.length && itunesAlbums.length">
-    <div class="col-md-12">
+  <div ngxUiLoaderBlurred *ngIf="itunesAlbums.length && deezerAlbums.length">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
       <table class="table table-sm">
         <thead class="thead-dark">
         <tr>
@@ -37,14 +37,14 @@
           class="accordion-item"
         >
           <td><img src="{{curArtist.picture}}" alt="{{idx}}"></td>
-          <td>{{curArtist.name}}</td>
+          <td><h6>{{curArtist.name}}</h6></td>
         </tr>
         </tbody>
       </table>
     </div>
     <div class="row">
       <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-        <div class="col-md-12 api-title">Deezer</div>
+        <h5>Deezer</h5>
         <table class="table table-sm">
           <thead class="thead-dark">
           <tr>
@@ -66,23 +66,10 @@
           </tr>
           </tbody>
         </table>
-        <button
-          (click)="nextPrevAlbum($event)"
-          id="next"
-          class="btn badge-info"
-          type="submit"
-        >Next</button>
-        <button
-          [ngStyle]="dataPrev.length && {'display': 'inline-block'}"
-          (click)="nextPrevAlbum($event)"
-          id="prev"
-          class="btn badge-info"
-          type="submit"
-        >Prev</button>
       </div>
 
       <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-        <div class="col-md-12 api-title">ITunes</div>
+        <h5>ITunes</h5>
         <table class="table table-sm">
           <thead class="thead-dark">
           <tr>
@@ -116,6 +103,28 @@
         </table>
       </div>
     </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="col-md-12">
+          <button
+            (click)="nextPrevAlbum($event)"
+            id="next"
+            class="btn badge-info"
+            type="submit"
+          >Next Albums</button>
+        </div>
+        <div class="col-md-12">
+          <button
+            [ngStyle]="dataPrev.length && {'display': 'inline-block'}"
+            (click)="nextPrevAlbum($event)"
+            id="prev"
+            class="btn badge-info"
+            type="submit"
+          >Prev Albums</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+<ngx-ui-loader></ngx-ui-loader>
 

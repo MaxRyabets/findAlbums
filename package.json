@@ -27,6 +27,7 @@
     "bootstrap": "^4.4.1",
     "font-awesome": "^4.7.0",
     "jquery": "^3.5.0",
+    "ngx-ui-loader": "^9.1.1",
     "popper.js": "^1.16.1",
     "rxjs": "~6.5.4",
     "s": "^1.0.0",

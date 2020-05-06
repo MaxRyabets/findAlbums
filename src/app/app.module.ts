@@ -8,6 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { TracksService } from './tracks.service';
 import { SearchPipe } from './search.pipe';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NgxUiLoaderModule } from 'ngx-ui-loader';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    NgxUiLoaderModule
   ],
   providers: [TracksService],
   bootstrap: [AppComponent]

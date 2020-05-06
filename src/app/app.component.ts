@@ -1,23 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { TracksService } from './tracks.service';
 import { Subscription } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {Artiest, DeezerAlbum, ITunes} from './shared/interfaces';
+import {NgxUiLoaderService} from 'ngx-ui-loader';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit, OnDestroy{
 
   constructor(
-    private tracksService: TracksService
+    private tracksService: TracksService,
+    private ngxService: NgxUiLoaderService
   ) { }
-  pSub: Subscription;
+
   dSub: Subscription;
   form: FormGroup;
-  em = 'eminem';
+  defaultArtist = 'eminem';
   dataNext: string;
   dataPrev = '';
   itunesAlbums: ITunes[] = [];
@@ -56,9 +58,12 @@ export class AppComponent implements OnInit{
     this.dataNext = '';
     this.dataPrev = '';
     this.currentArtiest.length = 0;
+    this.itunesAlbums.length = 0;
+    this.deezerAlbums.length = 0;
 
     this.querySearch = this.form.getRawValue().querySearch;
-    this.pSub = this.tracksService.getAllData(this.querySearch).subscribe(dataAlbum => {
+    this.ngxService.start();
+    this.dSub = this.tracksService.getAllData(this.querySearch).subscribe(dataAlbum => {
       if (dataAlbum[0].hasOwnProperty('data')){
         this.beginDeezer(dataAlbum[0]);
         this.addITunesArtistAlbum(dataAlbum[1]);
@@ -69,7 +74,9 @@ export class AppComponent implements OnInit{
         this.addITunesArtistAlbum(dataAlbum[0]);
         this.itunesPageSize = dataAlbum[0].resultCount;
       }
+      this.ngxService.stop();
     });
+
   }
 
   private beginDeezer(dataAlbum: any) {
@@ -103,9 +110,9 @@ export class AppComponent implements OnInit{
     } else {
       prevNext = this.dataNext;
       this.itunesPageSize += 25;
-      console.log('This is add to itnunes page size', this.itunesPageSize);
     }
-    this.pSub = this.tracksService.getAllNextPrev(prevNext, this.querySearch, this.itunesPageSize).subscribe(dataAlbum => {
+    this.ngxService.start();
+    this.dSub = this.tracksService.getAllNextPrev(prevNext, this.querySearch, this.itunesPageSize).subscribe(dataAlbum => {
       this.addDeezerArtistAlbum(dataAlbum[0].data);
       this.addITunesArtistAlbum(dataAlbum[1]);
       this.sortAlbum();
@@ -115,6 +122,7 @@ export class AppComponent implements OnInit{
         return;
       }
       this.dataPrev = dataAlbum[0].prev;
+      this.ngxService.stop();
     });
   }
 
@@ -122,4 +130,9 @@ export class AppComponent implements OnInit{
     this.itunesAlbums = this.tracksService.createITunesAlbum(dataAlbum)[1];
   }
 
+  ngOnDestroy() {
+    if (this.dSub) {
+      this.dSub.unsubscribe();
+    }
+  }
 }

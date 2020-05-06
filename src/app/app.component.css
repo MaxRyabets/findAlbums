@@ -1,5 +1,6 @@
 .container {
   margin-top: 25px;
+  margin-bottom: 20px;
 }
 
 .form-row {
@@ -47,6 +48,6 @@ button {
   display: none;
 }
 
-.api-title {
+h5 {
   text-align: center;
 }
