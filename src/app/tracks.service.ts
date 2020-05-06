@@ -23,8 +23,11 @@ export class TracksService {
     return this.http.get(`${this.proxy}https://api.deezer.com/search/album?q=${name}`);
   }*/
 
-  getAllNextPrev(url: string): Observable<any> {
-    return this.http.get(`${this.proxy}${url}`);
+  getAllNextPrev(url: string, name: string, limit: number): Observable<any> {
+    return forkJoin([
+      this.http.get(`${this.proxy}${url}`),
+      this.http.get(`${this.proxy}https://itunes.apple.com/search?term=${name}&entity=album&limit=${limit}`)
+    ]);
   }
 
   createDeezerAlbum(dataAlbum: object){

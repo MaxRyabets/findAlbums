@@ -46,3 +46,7 @@ button {
   float: left;
   display: none;
 }
+
+.api-title {
+  text-align: center;
+}

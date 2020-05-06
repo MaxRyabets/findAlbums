@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container container-sm container-md container-lg container-xl">
   <form [formGroup]="form" (ngSubmit)="submit()">
     <div class="form-row">
       <div class="col-md-10">
@@ -43,7 +43,8 @@
       </table>
     </div>
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+        <div class="col-md-12 api-title">Deezer</div>
         <table class="table table-sm">
           <thead class="thead-dark">
           <tr>
@@ -80,7 +81,8 @@
         >Prev</button>
       </div>
 
-      <div class="col-md-6">
+      <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+        <div class="col-md-12 api-title">ITunes</div>
         <table class="table table-sm">
           <thead class="thead-dark">
           <tr>
@@ -92,7 +94,7 @@
           </thead>
           <tbody class="accordion">
           <tr
-            *ngFor="let itunesAlbum of itunesAlbums; let idx = index"
+            *ngFor="let itunesAlbum of itunesAlbums | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize; let idx = index"
             class="accordion-item"
           >
             <td>{{idx + 1}}</td>
@@ -101,6 +103,16 @@
             <td>{{itunesAlbum.collectionPrice + '$'}}</td>
           </tr>
           </tbody>
+          <ngb-pagination
+            [(page)]="page"
+            [pageSize]="pageSize"
+            [collectionSize]="itunesAlbums.length"
+            [maxSize]= "5"
+            aria-label="Custom pagination"
+            >
+            <ng-template ngbPaginationPrevious>Prev</ng-template>
+            <ng-template ngbPaginationNext>Next</ng-template>
+          </ngb-pagination>
         </table>
       </div>
     </div>
