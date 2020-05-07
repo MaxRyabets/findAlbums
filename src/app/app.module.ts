@@ -5,15 +5,13 @@ import { AppComponent } from './app.component';
 import { NgbPaginationModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { TracksService } from './tracks.service';
-import { SearchPipe } from './search.pipe';
+import { AlbumsService } from './albums.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgxUiLoaderModule } from 'ngx-ui-loader';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SearchPipe
   ],
   imports: [
     BrowserModule,
@@ -25,7 +23,7 @@ import { NgxUiLoaderModule } from 'ngx-ui-loader';
     FontAwesomeModule,
     NgxUiLoaderModule
   ],
-  providers: [TracksService],
+  providers: [AlbumsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

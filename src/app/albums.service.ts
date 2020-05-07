@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {forkJoin, Observable} from 'rxjs';
-import {tap} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TracksService {
+export class AlbumsService {
   constructor(
     private http: HttpClient
   ) { }
@@ -16,7 +16,14 @@ export class TracksService {
     return forkJoin([
       this.http.get(`${this.proxy}https://api.deezer.com/search/album?q=${name}`),
       this.http.get(`${this.proxy}https://itunes.apple.com/search?term=${name}&entity=album&limit=25`)
-    ]);
+    ]).pipe(
+      map(([res1, res2]) => {
+        if (!res1.hasOwnProperty('data')){
+          return [res2, res1];
+        } else {
+          return [res1, res2];
+        }
+      }));
   }
   /* Query for one api */
   /*getAll(name: string): Observable<any> {
@@ -27,7 +34,14 @@ export class TracksService {
     return forkJoin([
       this.http.get(`${this.proxy}${url}`),
       this.http.get(`${this.proxy}https://itunes.apple.com/search?term=${name}&entity=album&limit=${limit}`)
-    ]);
+    ]).pipe(
+      map(([res1, res2]) => {
+        if (!res1.hasOwnProperty('data')){
+          return [res2, res1];
+        } else {
+          return [res1, res2];
+        }
+      }));
   }
 
   createDeezerAlbum(dataAlbum: object){

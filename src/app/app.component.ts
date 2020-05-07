@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import { TracksService } from './tracks.service';
+import { AlbumsService } from './albums.service';
 import { Subscription } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {Artiest, DeezerAlbum, ITunes} from './shared/interfaces';
@@ -13,7 +13,7 @@ import {NgxUiLoaderService} from 'ngx-ui-loader';
 export class AppComponent implements OnInit, OnDestroy{
 
   constructor(
-    private tracksService: TracksService,
+    private albumsService: AlbumsService,
     private ngxService: NgxUiLoaderService
   ) { }
 
@@ -63,17 +63,11 @@ export class AppComponent implements OnInit, OnDestroy{
 
     this.querySearch = this.form.getRawValue().querySearch;
     this.ngxService.start();
-    this.dSub = this.tracksService.getAllData(this.querySearch).subscribe(dataAlbum => {
-      if (dataAlbum[0].hasOwnProperty('data')){
-        this.beginDeezer(dataAlbum[0]);
-        this.addITunesArtistAlbum(dataAlbum[1]);
-        this.sortAlbum();
-        this.itunesPageSize = dataAlbum[1].resultCount;
-      } else {
-        this.beginDeezer(dataAlbum[1]);
-        this.addITunesArtistAlbum(dataAlbum[0]);
-        this.itunesPageSize = dataAlbum[0].resultCount;
-      }
+    this.dSub = this.albumsService.getAllData(this.querySearch).subscribe(dataAlbum => {
+      this.beginDeezer(dataAlbum[0]);
+      this.addITunesArtistAlbum(dataAlbum[1]);
+      this.sortAlbum();
+      this.itunesPageSize = dataAlbum[1].resultCount;
       this.ngxService.stop();
     });
 
@@ -85,7 +79,7 @@ export class AppComponent implements OnInit, OnDestroy{
   }
 
   private addDeezerArtistAlbum(dataAlbum: object) {
-    this.deezerAlbums = this.tracksService.createDeezerAlbum(dataAlbum);
+    this.deezerAlbums = this.albumsService.createDeezerAlbum(dataAlbum);
     if (!this.currentArtiest.length) {
       this.currentArtiest.push({picture: dataAlbum[0].artist.picture, name: dataAlbum[0].artist.name});
     }
@@ -112,13 +106,14 @@ export class AppComponent implements OnInit, OnDestroy{
       this.itunesPageSize += 25;
     }
     this.ngxService.start();
-    this.dSub = this.tracksService.getAllNextPrev(prevNext, this.querySearch, this.itunesPageSize).subscribe(dataAlbum => {
+    this.dSub = this.albumsService.getAllNextPrev(prevNext, this.querySearch, this.itunesPageSize).subscribe(dataAlbum => {
       this.addDeezerArtistAlbum(dataAlbum[0].data);
       this.addITunesArtistAlbum(dataAlbum[1]);
       this.sortAlbum();
       this.dataNext = dataAlbum[0].next;
       if (!dataAlbum[0].hasOwnProperty('prev')){
         this.dataPrev = '';
+        this.ngxService.stop();
         return;
       }
       this.dataPrev = dataAlbum[0].prev;
@@ -127,7 +122,7 @@ export class AppComponent implements OnInit, OnDestroy{
   }
 
   private addITunesArtistAlbum(dataAlbum: object) {
-    this.itunesAlbums = this.tracksService.createITunesAlbum(dataAlbum)[1];
+    this.itunesAlbums = this.albumsService.createITunesAlbum(dataAlbum)[1];
   }
 
   ngOnDestroy() {
