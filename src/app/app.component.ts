@@ -1,9 +1,13 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import { AlbumsService } from './albums.service';
-import { Subscription } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AlbumsService } from './services/albums.service';
+import {Observable, Subscription} from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import {Artiest, DeezerAlbum, ITunes} from './shared/interfaces';
-import {NgxUiLoaderService} from 'ngx-ui-loader';
+import {AlbumTracks, Artist, DeezerAlbum, DeezerAlbums, ITunesAlbum, ITunesAlbums} from './shared/interfaces';
+
+enum NEXT_PREV {
+  NEXT = 1,
+  PREV = 0
+}
 
 @Component({
   selector: 'app-root',
@@ -13,33 +17,23 @@ import {NgxUiLoaderService} from 'ngx-ui-loader';
 export class AppComponent implements OnInit, OnDestroy{
 
   constructor(
-    private albumsService: AlbumsService,
-    private ngxService: NgxUiLoaderService
+    private albumsService: AlbumsService
   ) { }
 
   dSub: Subscription;
+  iSub: Subscription;
   form: FormGroup;
   defaultArtist = 'eminem';
   dataNext: string;
   dataPrev = '';
-  itunesAlbums: ITunes[] = [];
+  itunesAlbums: ITunesAlbum[] = [];
   deezerAlbums: DeezerAlbum[] = [];
-  currentArtiest: Artiest[] = [];
+  currentArtiest: Artist[] = [];
+  albumTracks: AlbumTracks[] = [];
   querySearch: string;
   itunesPageSize: number;
-
-  page = 1;
-  pageSize = 25;
-
-   static sortDeezerITunesAlbums(a, b) {
-    if (a > b) {
-      return 1;
-    }
-    if (a < b) {
-      return -1;
-    }
-    return 0;
-  }
+  results: Observable<DeezerAlbum[]>;
+  NEXT_PREV = NEXT_PREV;
 
   ngOnInit(): void {
     this.formControls();
@@ -51,51 +45,56 @@ export class AppComponent implements OnInit, OnDestroy{
     });
   }
 
+  private testy(){
+    this.results = this.albumsService.getData();
+    console.log('This is test', this.results);
+  }
+
   submit() {
-    if (this.form.invalid) {
-      return;
-    }
-    this.dataNext = '';
-    this.dataPrev = '';
-    this.currentArtiest.length = 0;
-    this.itunesAlbums.length = 0;
-    this.deezerAlbums.length = 0;
-
     this.querySearch = this.form.getRawValue().querySearch;
-    this.ngxService.start();
-    this.dSub = this.albumsService.getAllData(this.querySearch).subscribe(dataAlbum => {
-      this.beginDeezer(dataAlbum[0]);
-      this.addITunesArtistAlbum(dataAlbum[1]);
-      this.sortAlbum();
-      this.itunesPageSize = dataAlbum[1].resultCount;
-      this.ngxService.stop();
+    this.dSub = this.albumsService.getDataDeezerAlbums(this.querySearch).subscribe(dataDeezerAlbums => {
+      this.currentArtiest.length = 0;
+      console.log('This is Deezer albums ', dataDeezerAlbums);
+      this.addDeezerAlbums(dataDeezerAlbums);
     });
-
+    this.iSub = this.albumsService.getDataITunesAlbums(this.querySearch).subscribe(dataITunesAlbums => {
+      console.log('This is ITunes albums ', dataITunesAlbums);
+      this.addITunesAlbums(dataITunesAlbums);
+      this.itunesPageSize = dataITunesAlbums.resultCount;
+    });
   }
 
-  private beginDeezer(dataAlbum: any) {
-    this.addDeezerArtistAlbum(dataAlbum.data);
-    this.dataNext = dataAlbum.next;
+  private addDeezerAlbums(dataDeezerAlbums: DeezerAlbums) {
+    this.deezerAlbums = this.albumsService.createDeezerAlbum(dataDeezerAlbums.data);
+    this.addDeezerArtistAlbum(dataDeezerAlbums.data);
+    this.dataNext = dataDeezerAlbums.next;
   }
 
-  private addDeezerArtistAlbum(dataAlbum: object) {
-    this.deezerAlbums = this.albumsService.createDeezerAlbum(dataAlbum);
+  private addDeezerArtistAlbum(dataDeezerAlbums: DeezerAlbum) {
     if (!this.currentArtiest.length) {
-      this.currentArtiest.push({picture: dataAlbum[0].artist.picture, name: dataAlbum[0].artist.name});
+      this.currentArtiest.push(dataDeezerAlbums[0].artist);
     }
   }
 
-  private sortAlbum() {
-    this.deezerAlbums.sort( (a, b) => {
-      return AppComponent.sortDeezerITunesAlbums(a.title, b.title);
-    });
-    this.itunesAlbums.sort( (a, b) => {
-      return AppComponent.sortDeezerITunesAlbums(a.collectionName, b.collectionName);
+  private addITunesAlbums(dataITunesAlbums: ITunesAlbums) {
+    this.itunesAlbums = this.albumsService.createITunesAlbum(dataITunesAlbums.results);
+  }
+
+  public getNextPrevDeezerAlbums(action: NEXT_PREV){
+    let actionNextPrev: string;
+    actionNextPrev = action === 0 ? this.dataPrev : this.dataNext;
+    this.albumsService.getNextDeezerAlbums(actionNextPrev).subscribe(dataDeezerAlbums => {
+      this.addDeezerAlbums(dataDeezerAlbums);
+      if (action === 0 && !dataDeezerAlbums.hasOwnProperty('prev')) {
+        this.dataPrev = '';
+        return;
+      }
+      this.dataPrev = dataDeezerAlbums.prev;
     });
   }
 
   nextPrevAlbum($event: MouseEvent) {
-    let prevNext: string;
+    /*let prevNext: string;
     // @ts-ignore
     if ($event.target.id === 'prev'){
       prevNext = this.dataPrev;
@@ -106,7 +105,7 @@ export class AppComponent implements OnInit, OnDestroy{
       this.itunesPageSize += 25;
     }
     this.ngxService.start();
-    this.dSub = this.albumsService.getAllNextPrev(prevNext, this.querySearch, this.itunesPageSize).subscribe(dataAlbum => {
+    this.albumsService.getAllNextPrev(prevNext, this.querySearch, this.itunesPageSize).subscribe(dataAlbum => {
       this.addDeezerArtistAlbum(dataAlbum[0].data);
       this.addITunesArtistAlbum(dataAlbum[1]);
       this.sortAlbum();
@@ -118,16 +117,23 @@ export class AppComponent implements OnInit, OnDestroy{
       }
       this.dataPrev = dataAlbum[0].prev;
       this.ngxService.stop();
-    });
+    });*/
   }
 
-  private addITunesArtistAlbum(dataAlbum: object) {
-    this.itunesAlbums = this.albumsService.createITunesAlbum(dataAlbum)[1];
+  getTracks(id: number, $event: MouseEvent) {
+    // @ts-ignore
+    this.dSub = this.albumsService.getAlbumsTracks(id).subscribe(tracks => {
+      console.log(tracks);
+      this.albumTracks.push(tracks.data);
+    });
   }
 
   ngOnDestroy() {
     if (this.dSub) {
       this.dSub.unsubscribe();
+    }
+    if (this.iSub) {
+      this.iSub.unsubscribe();
     }
   }
 }

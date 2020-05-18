@@ -43,7 +43,7 @@
       </table>
     </div>
     <div class="row">
-      <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+      <div class="col">
         <h5>Deezer</h5>
         <table class="table table-sm">
           <thead class="thead-dark">
@@ -52,23 +52,55 @@
             <th scope="col">Cover</th>
             <th scope="col">Title</th>
             <th scope="col">Explicit lyrics</th>
+            <th scope="col">Tracks</th>
           </tr>
           </thead>
           <tbody class="accordion">
           <tr
-            *ngFor="let deezerAlbum of deezerAlbums; let idx = index"
+            *ngFor="let deezerAlbum of deezerAlbums | sortDeezerAlbumsTitle; let idx = index"
+            (click)="getTracks(deezerAlbum.id, $event)"
             class="accordion-item"
+            id="{{deezerAlbum.id}}"
           >
             <td>{{idx + 1}}</td>
             <td><img src="{{deezerAlbum.cover}}" alt="idx + 1"></td>
             <td>{{deezerAlbum.title}}</td>
             <td>{{deezerAlbum.explicit_lyrics ? 'Yes' : 'No'}}</td>
+            <td>
+              <div *ngFor="let albumTrack of albumTracks">
+                <p>{{albumTrack.title}}</p>
+                <p>
+                  <audio controls>
+                    <source src="{{albumTrack.preview}}" type="audio/mpeg">
+                  </audio>
+                </p>
+              </div>
+            </td>
           </tr>
           </tbody>
         </table>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="col-md-12">
+              <button
+                (click)="getNextPrevDeezerAlbums(NEXT_PREV.NEXT)"
+                class="btn badge-info"
+                type="submit"
+              >Next Albums</button>
+            </div>
+            <div class="col-md-12">
+              <button
+                [ngStyle]="dataPrev.length && {'display': 'inline-block'}"
+                (click)="getNextPrevDeezerAlbums(NEXT_PREV.PREV)"
+                class="btn badge-info"
+                type="submit"
+              >Prev Albums</button>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+      <div class="col">
         <h5>ITunes</h5>
         <table class="table table-sm">
           <thead class="thead-dark">
@@ -81,7 +113,7 @@
           </thead>
           <tbody class="accordion">
           <tr
-            *ngFor="let itunesAlbum of itunesAlbums | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize; let idx = index"
+            *ngFor="let itunesAlbum of itunesAlbums | sortItunesAlbumsTitle let idx = index"
             class="accordion-item"
           >
             <td>{{idx + 1}}</td>
@@ -90,41 +122,9 @@
             <td>{{itunesAlbum.collectionPrice + '$'}}</td>
           </tr>
           </tbody>
-          <ngb-pagination
-            [(page)]="page"
-            [pageSize]="pageSize"
-            [collectionSize]="itunesAlbums.length"
-            [maxSize]= "5"
-            aria-label="Custom pagination"
-            >
-            <ng-template ngbPaginationPrevious>Prev</ng-template>
-            <ng-template ngbPaginationNext>Next</ng-template>
-          </ngb-pagination>
         </table>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12">
-        <div class="col-md-12">
-          <button
-            (click)="nextPrevAlbum($event)"
-            id="next"
-            class="btn badge-info"
-            type="submit"
-          >Next Albums</button>
-        </div>
-        <div class="col-md-12">
-          <button
-            [ngStyle]="dataPrev.length && {'display': 'inline-block'}"
-            (click)="nextPrevAlbum($event)"
-            id="prev"
-            class="btn badge-info"
-            type="submit"
-          >Prev Albums</button>
-        </div>
       </div>
     </div>
   </div>
 </div>
-<ngx-ui-loader></ngx-ui-loader>
 
