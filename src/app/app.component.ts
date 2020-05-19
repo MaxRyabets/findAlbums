@@ -25,7 +25,8 @@ export class AppComponent implements OnInit, OnDestroy{
   form: FormGroup;
   defaultArtist = 'eminem';
   dataNext: string;
-  dataPrev = '';
+  dataDeezerPrev = '';
+  dataITunesPrev = '';
   itunesAlbums: ITunesAlbum[] = [];
   deezerAlbums: DeezerAlbum[] = [];
   currentArtiest: Artist[] = [];
@@ -82,42 +83,41 @@ export class AppComponent implements OnInit, OnDestroy{
 
   public getNextPrevDeezerAlbums(action: NEXT_PREV){
     let actionNextPrev: string;
-    actionNextPrev = action === 0 ? this.dataPrev : this.dataNext;
+    actionNextPrev = action === 0 ? this.dataDeezerPrev : this.dataNext;
     this.albumsService.getNextDeezerAlbums(actionNextPrev).subscribe(dataDeezerAlbums => {
       this.addDeezerAlbums(dataDeezerAlbums);
       if (action === 0 && !dataDeezerAlbums.hasOwnProperty('prev')) {
-        this.dataPrev = '';
+        this.dataDeezerPrev = '';
         return;
       }
-      this.dataPrev = dataDeezerAlbums.prev;
+      this.dataDeezerPrev = dataDeezerAlbums.prev;
     });
   }
-
-  nextPrevAlbum($event: MouseEvent) {
-    /*let prevNext: string;
-    // @ts-ignore
-    if ($event.target.id === 'prev'){
-      prevNext = this.dataPrev;
-      // maximum amount of data per site deezer with one request = 25 => itunes
+  public getNextPrevITunesAlbums(action: NEXT_PREV){
+    if (action === 0) {
       this.itunesPageSize -= 25;
     } else {
-      prevNext = this.dataNext;
       this.itunesPageSize += 25;
     }
-    this.ngxService.start();
-    this.albumsService.getAllNextPrev(prevNext, this.querySearch, this.itunesPageSize).subscribe(dataAlbum => {
-      this.addDeezerArtistAlbum(dataAlbum[0].data);
-      this.addITunesArtistAlbum(dataAlbum[1]);
-      this.sortAlbum();
-      this.dataNext = dataAlbum[0].next;
-      if (!dataAlbum[0].hasOwnProperty('prev')){
-        this.dataPrev = '';
-        this.ngxService.stop();
+    this.albumsService.getNextITunesAlbums(this.querySearch, this.itunesPageSize).subscribe(dataITunesAlbums => {
+      this.addITunesAlbums(dataITunesAlbums);
+      console.log('This is ITUNES', this.itunesAlbums);
+      if (this.itunesPageSize <= this.itunesAlbums.length + 5) {
+        console.log('This is size ', this.itunesPageSize);
+        console.log('This is len itunes album', this.itunesAlbums.length);
+        this.itunesAlbums.splice(0, this.itunesPageSize - 25);
+      } else {
+        this.itunesPageSize = 0;
+        this.itunesAlbums.splice(25, this.itunesAlbums.length - 1);
+      }
+
+      if (action === 0 && this.itunesPageSize === 25) {
+        this.dataITunesPrev = '';
         return;
       }
-      this.dataPrev = dataAlbum[0].prev;
-      this.ngxService.stop();
-    });*/
+      this.dataITunesPrev = '1';
+    });
+    //this.itunesAlbums = this.albumsService.filterCountITunesAlbums(this.itunesAlbums, this.itunesPageSize);
   }
 
   getTracks(id: number, $event: MouseEvent) {

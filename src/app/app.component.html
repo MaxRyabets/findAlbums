@@ -84,15 +84,15 @@
             <div class="col-md-12">
               <button
                 (click)="getNextPrevDeezerAlbums(NEXT_PREV.NEXT)"
-                class="btn badge-info"
+                class="btn badge-info next"
                 type="submit"
               >Next Albums</button>
             </div>
             <div class="col-md-12">
               <button
-                [ngStyle]="dataPrev.length && {'display': 'inline-block'}"
+                [ngStyle]="dataDeezerPrev.length && {'display': 'inline-block'}"
                 (click)="getNextPrevDeezerAlbums(NEXT_PREV.PREV)"
-                class="btn badge-info"
+                class="btn badge-info deezerPrev"
                 type="submit"
               >Prev Albums</button>
             </div>
@@ -123,6 +123,25 @@
           </tr>
           </tbody>
         </table>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="col-md-12">
+              <button
+                (click)="getNextPrevITunesAlbums(NEXT_PREV.NEXT)"
+                class="btn badge-info next"
+                type="submit"
+              >Next Albums</button>
+            </div>
+            <div class="col-md-12">
+              <button
+                [ngStyle]="dataITunesPrev.length && {'display': 'inline-block'}"
+                (click)="getNextPrevITunesAlbums(NEXT_PREV.PREV)"
+                class="btn badge-info itunesPrev"
+                type="submit"
+              >Prev Albums</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

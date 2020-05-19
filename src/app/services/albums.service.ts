@@ -51,17 +51,16 @@ export class AlbumsService {
     return this.deezerAlbum.getNextDataDeezerAlbums(this.proxy, urlNextData);
   }
 
-  getAllNextPrev(url: string, name: string, limit: number): Observable<any> {
-    return forkJoin([
-      this.http.get(`${this.proxy}${url}`),
-      this.http.get(`${this.proxy}${this.urlITunes}${name}&entity=album&limit=${limit}`)
-    ]).pipe(
-      map(([res1, res2]) => !res1.hasOwnProperty('data') ? [res2, res1] : [res1, res2])
-    );
+  getNextITunesAlbums(name: string, limit: number): Observable<ITunesAlbums> {
+    return this.itunesAlbum.getNextDataITunesAlbums(this.proxy, name, limit);
   }
 
   getAlbumsTracks(id: string): Observable<any> {
     console.log(`${this.proxy}${this.urlDeezer}/${id}/tracks`);
     return this.http.get(`${this.proxy}${this.ulrTrackDeezer}${id}/tracks`);
+  }
+
+  filterCountITunesAlbums(itunesAlbums: ITunesAlbum[], itunesPageSize: number) {
+    return this.itunesAlbum.filterCountITunesAlbums(itunesAlbums, itunesPageSize);
   }
 }

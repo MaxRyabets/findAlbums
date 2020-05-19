@@ -6,8 +6,8 @@ import {DeezerAlbum} from '../interfaces';
 })
 export class SortDeezerAlbumsTitlePipe implements PipeTransform {
 
-  transform(deezerAlbums: DeezerAlbum[]): DeezerAlbum[] {
-    return deezerAlbums.sort( (a, b) => {
+  transform(itunesAlbums: DeezerAlbum[]): DeezerAlbum[] {
+    return itunesAlbums.sort( (a, b) => {
       return a.title.toLowerCase().localeCompare(b.title.toLowerCase());
     });
   }

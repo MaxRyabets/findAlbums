@@ -39,11 +39,11 @@ button {
   cursor: pointer;
 }
 
-#next {
+.next {
   float: right;
 }
 
-#prev {
+.deezerPrev, .itunesPrev {
   float: left;
   display: none;
 }
