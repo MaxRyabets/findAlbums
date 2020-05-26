@@ -10,12 +10,13 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgxUiLoaderModule } from 'ngx-ui-loader';
 import { ItunesAlbumComponent } from './components/itunes-album/itunes-album.component';
 import { DeezerAlbumComponent } from './components/deezer-album/deezer-album.component';
-import {DeezerAlbumService} from './services/deezer-album.service';
-import {ItunesAlbumService} from './services/itunes-album.service';
-import { SortDeezerAlbumsTitlePipe } from './shared/pipes/sort-deezer-albums-title.pipe';
-import { SortItunesAlbumsTitlePipe } from './shared/pipes/sort-itunes-albums-title.pipe';
+import {DeezerAlbumService} from './components/deezer-album/shared/deezer-album.service';
+import {ItunesAlbumService} from './components/itunes-album/shared/itunes-album.service';
+import { SortDeezerAlbumsTitlePipe } from './components/deezer-album/shared/sort-deezer-albums-title.pipe';
+import { SortItunesAlbumsTitlePipe } from './components/itunes-album/shared/sort-itunes-albums-title.pipe';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import { AlbumFormComponent } from './components/album-form/album-form.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     DeezerAlbumComponent,
     SortDeezerAlbumsTitlePipe,
     SortItunesAlbumsTitlePipe,
+    AlbumFormComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs';
-import {ITunesAlbum, ITunesAlbums} from '../shared/interfaces';
+import {ITunesAlbum, ITunesAlbums} from '../../../shared/interfaces';
 import {HttpClient} from '@angular/common/http';
-import {filter} from 'rxjs/operators';
-import {log} from 'util';
 
 @Injectable()
 export class ItunesAlbumService {
 
+  private proxy = 'https://cors-anywhere.herokuapp.com/';
   constructor(
     private http: HttpClient
   ) { }
@@ -17,8 +16,8 @@ export class ItunesAlbumService {
     return this.http.get<ITunesAlbums>(`${proxy}${this.urlITunes}${name}&entity=album&limit=25`);
   }
 
-  getNextDataITunesAlbums(proxy: string, name: string, limit: number): Observable<ITunesAlbums> {
-    return this.http.get<ITunesAlbums>(`${proxy}${this.urlITunes}${name}&entity=album&limit=${limit}`);
+  getNextDataITunesAlbums(name: string, limit: number): Observable<ITunesAlbums> {
+    return this.http.get<ITunesAlbums>(`${this.proxy}${this.urlITunes}${name}&entity=album&limit=${limit}`);
   }
 
   createITunesAlbum(dataAlbum: ITunesAlbum){
@@ -27,13 +26,5 @@ export class ItunesAlbumService {
       collectionName: data.collectionName,
       collectionPrice: data.collectionPrice
     }));
-  }
-
-  filterCountITunesAlbums(itunesAlbums: ITunesAlbum[], itunesPageSize: number) {
-    const currentSize = itunesPageSize - 25;
-    return filter((itunesAlbum, index) => {
-      console.log(itunesAlbum);
-      return index >= currentSize;
-    });
   }
 }

@@ -1,1 +1,43 @@
-<p>deezer-album works!</p>
+<div class="row">
+  <div class="col">
+    <h5>Deezer</h5>
+    <div
+      *ngFor="let deezerAlbum of deezerAlbums | sortDeezerAlbumsTitle; let idx = index"
+      (click)="getTracks(deezerAlbum.id, $event)"
+
+      class="row">
+      <div class="col">
+        <p>Cover :
+          <img src="{{deezerAlbum.cover}}" alt="{{idx}} + 1">
+        </p>
+      </div>
+      <div class="col">
+        <p>Title:
+          {{deezerAlbum.title}}
+        </p>
+        <p>Explicit lyrics:
+          {{deezerAlbum.explicit_lyrics ? 'Yes' : 'No'}}
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="col-md-12">
+          <button
+            (click)="getNextPrevDeezerAlbums(NEXT_PREV.NEXT)"
+            class="btn badge-info next"
+            type="submit"
+          >Next Albums</button>
+        </div>
+        <div class="col-md-12">
+          <button
+            [ngStyle]="dataDeezerPrevAlbums.length && {'display': 'inline-block'}"
+            (click)="getNextPrevDeezerAlbums(NEXT_PREV.PREV)"
+            class="btn badge-info deezerPrev"
+            type="submit"
+          >Prev Albums</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

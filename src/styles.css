@@ -2,3 +2,20 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+button {
+  cursor: pointer;
+}
+
+.next {
+  float: right;
+}
+
+.deezerPrev, .itunesPrev {
+  float: left;
+  display: none;
+}
+
+h5 {
+  text-align: center;
+}

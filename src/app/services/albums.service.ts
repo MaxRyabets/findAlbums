@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpClientJsonpModule} from '@angular/common/http';
-import {forkJoin, Observable} from 'rxjs';
+import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {DeezerAlbum, DeezerAlbums, ITunesAlbum, ITunesAlbums} from '../shared/interfaces';
-import {DeezerAlbumService} from './deezer-album.service';
-import {ItunesAlbumService} from './itunes-album.service';
+import {DeezerAlbumService} from '../components/deezer-album/shared/deezer-album.service';
+import {ItunesAlbumService} from '../components/itunes-album/shared/itunes-album.service';
 
 
 @Injectable({
@@ -19,7 +19,6 @@ export class AlbumsService {
   ) { }
   private proxy = 'https://cors-anywhere.herokuapp.com/';
   private urlDeezer = 'https://api.deezer.com/search/album';
-  private urlITunes = 'https://itunes.apple.com/search?term=';
 
   private ulrTrackDeezer = 'https://api.deezer.com/album/';
 
@@ -47,20 +46,8 @@ export class AlbumsService {
     return this.itunesAlbum.createITunesAlbum(dataAlbum);
   }
 
-  getNextDeezerAlbums(urlNextData: string): Observable<DeezerAlbums> {
-    return this.deezerAlbum.getNextDataDeezerAlbums(this.proxy, urlNextData);
-  }
-
-  getNextITunesAlbums(name: string, limit: number): Observable<ITunesAlbums> {
-    return this.itunesAlbum.getNextDataITunesAlbums(this.proxy, name, limit);
-  }
-
   getAlbumsTracks(id: string): Observable<any> {
     console.log(`${this.proxy}${this.urlDeezer}/${id}/tracks`);
     return this.http.get(`${this.proxy}${this.ulrTrackDeezer}${id}/tracks`);
-  }
-
-  filterCountITunesAlbums(itunesAlbums: ITunesAlbum[], itunesPageSize: number) {
-    return this.itunesAlbum.filterCountITunesAlbums(itunesAlbums, itunesPageSize);
   }
 }

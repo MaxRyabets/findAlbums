@@ -1,149 +1,35 @@
 <div class="container container-sm container-md container-lg container-xl">
-  <form [formGroup]="form" (ngSubmit)="submit()">
-    <div class="form-row">
-      <div class="col-md-10">
-        <div class="col">
-          <div class="input-group">
-            <input
-              class="form-control"
-              type="search"
-
-              aria-label="Search"
-              autofocus
-              formControlName="querySearch"
-              [(ngModel)]="defaultArtist"
-            >
-            <div class="input-group-append">
-              <button class="btn btn-outline-secondary" type="submit"><i class="fa fa-search"></i></button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </form>
-  <div ngxUiLoaderBlurred *ngIf="itunesAlbums.length && deezerAlbums.length">
-    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-      <table class="table table-sm">
-        <thead class="thead-dark">
-        <tr>
-          <th scope="col">Picture</th>
-          <th scope="col">Name</th>
-          <!--<th scope="col">Tracklist</th>-->
-        </tr>
-        </thead>
-        <tbody class="accordion">
-        <tr
-          *ngFor="let curArtist of currentArtiest let idx = index"
-          class="accordion-item"
-        >
-          <td><img src="{{curArtist.picture}}" alt="{{idx}}"></td>
-          <td><h6>{{curArtist.name}}</h6></td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
+  <app-album-form
+  (addDeezAlbums)="updateDeezerAlbums($event)"
+  (addITunAlbums)="updateITunesAlbums($event)"
+  (querySearchITunes)="updateQuerySearchITunes($event)"
+  (itunesPageSize)="updateITunesPageSize($event)"
+  ></app-album-form>
+  <div *ngIf="itunesAlbums.length && deezerAlbums.length">
     <div class="row">
       <div class="col">
-        <h5>Deezer</h5>
-        <table class="table table-sm">
-          <thead class="thead-dark">
-          <tr>
-            <th scope="col">Album</th>
-            <th scope="col">Cover</th>
-            <th scope="col">Title</th>
-            <th scope="col">Explicit lyrics</th>
-            <th scope="col">Tracks</th>
-          </tr>
-          </thead>
-          <tbody class="accordion">
-          <tr
-            *ngFor="let deezerAlbum of deezerAlbums | sortDeezerAlbumsTitle; let idx = index"
-            (click)="getTracks(deezerAlbum.id, $event)"
-            class="accordion-item"
-            id="{{deezerAlbum.id}}"
-          >
-            <td>{{idx + 1}}</td>
-            <td><img src="{{deezerAlbum.cover}}" alt="idx + 1"></td>
-            <td>{{deezerAlbum.title}}</td>
-            <td>{{deezerAlbum.explicit_lyrics ? 'Yes' : 'No'}}</td>
-            <td>
-              <div *ngFor="let albumTrack of albumTracks">
-                <p>{{albumTrack.title}}</p>
-                <p>
-                  <audio controls>
-                    <source src="{{albumTrack.preview}}" type="audio/mpeg">
-                  </audio>
-                </p>
-              </div>
-            </td>
-          </tr>
-          </tbody>
-        </table>
-        <div class="row">
-          <div class="col-md-12">
-            <div class="col-md-12">
-              <button
-                (click)="getNextPrevDeezerAlbums(NEXT_PREV.NEXT)"
-                class="btn badge-info next"
-                type="submit"
-              >Next Albums</button>
+        <div *ngFor="let curArtist of currentArtiest let idx = index">
+          <div class="row">
+            <div class="col">
+              <img src="{{curArtist.picture}}" alt="{{idx}}">
             </div>
-            <div class="col-md-12">
-              <button
-                [ngStyle]="dataDeezerPrev.length && {'display': 'inline-block'}"
-                (click)="getNextPrevDeezerAlbums(NEXT_PREV.PREV)"
-                class="btn badge-info deezerPrev"
-                type="submit"
-              >Prev Albums</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col">
-        <h5>ITunes</h5>
-        <table class="table table-sm">
-          <thead class="thead-dark">
-          <tr>
-            <th scope="col">Album</th>
-            <th scope="col">Cover</th>
-            <th scope="col">Title</th>
-            <th scope="col">Price</th>
-          </tr>
-          </thead>
-          <tbody class="accordion">
-          <tr
-            *ngFor="let itunesAlbum of itunesAlbums | sortItunesAlbumsTitle let idx = index"
-            class="accordion-item"
-          >
-            <td>{{idx + 1}}</td>
-            <td><img src="{{itunesAlbum.artworkUrl60}}" alt="idx + 1"></td>
-            <td>{{itunesAlbum.collectionName}}</td>
-            <td>{{itunesAlbum.collectionPrice + '$'}}</td>
-          </tr>
-          </tbody>
-        </table>
-        <div class="row">
-          <div class="col-md-12">
-            <div class="col-md-12">
-              <button
-                (click)="getNextPrevITunesAlbums(NEXT_PREV.NEXT)"
-                class="btn badge-info next"
-                type="submit"
-              >Next Albums</button>
-            </div>
-            <div class="col-md-12">
-              <button
-                [ngStyle]="dataITunesPrev.length && {'display': 'inline-block'}"
-                (click)="getNextPrevITunesAlbums(NEXT_PREV.PREV)"
-                class="btn badge-info itunesPrev"
-                type="submit"
-              >Prev Albums</button>
+            <div class="col">
+              <h6>Name: {{curArtist.name}}</h6>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <app-deezer-album
+      [deezerAlbums]="deezerAlbums"
+      [dataNextDeezerAlbums]="dataNextDeezerAlbums"
+      (addDeezAlbums)="updateDeezerAlbums($event)"
+    ></app-deezer-album>
+    <app-itunes-album
+      [querySearch]="querySearch"
+      [itunesPageSize]="itunesPageSize"
+      [itunesAlbums]="itunesAlbums"
+      (addITunesAlbums)="updateITunesAlbums($event)"
+    ></app-itunes-album>
   </div>
 </div>
-

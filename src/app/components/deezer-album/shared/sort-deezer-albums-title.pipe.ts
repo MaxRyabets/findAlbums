@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import {DeezerAlbum} from '../interfaces';
+import {DeezerAlbum} from '../../../shared/interfaces';
 
 @Pipe({
   name: 'sortDeezerAlbumsTitle'

@@ -1,1 +1,41 @@
-<p>itunes-album works!</p>
+<div class="row">
+  <div class="col">
+    <h5>ITunes</h5>
+    <div *ngFor="let itunesAlbum of itunesAlbums | sortItunesAlbumsTitle let idx = index">
+      <div class="row">
+        <div class="col">
+          <p>Cover :
+            <img src="{{itunesAlbum.artworkUrl60}}" alt="{{idx}} + 1">
+          </p>
+        </div>
+        <div class="col">
+          <p>Title:
+            {{itunesAlbum.collectionName}}
+          </p>
+          <p>Price:
+            {{itunesAlbum.collectionPrice + '$'}}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="col-md-12">
+          <button
+            (click)="getNextPrevITunesAlbums(NEXT_PREV.NEXT)"
+            class="btn badge-info next"
+            type="submit"
+          >Next Albums</button>
+        </div>
+        <div class="col-md-12">
+          <button
+            [ngStyle]="dataITunesPrev.length && {'display': 'inline-block'}"
+            (click)="getNextPrevITunesAlbums(NEXT_PREV.PREV)"
+            class="btn badge-info itunesPrev"
+            type="submit"
+          >Prev Albums</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

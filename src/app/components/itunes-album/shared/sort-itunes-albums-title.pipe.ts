@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import {ITunesAlbum} from '../interfaces';
+import {ITunesAlbum} from '../../../shared/interfaces';
 
 @Pipe({
   name: 'sortItunesAlbumsTitle'
