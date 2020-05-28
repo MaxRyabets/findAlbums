@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Artist} from '../../shared/artist.interface';
+import {Artist} from './artist.interface';
 
 @Component({
   selector: 'app-artist',

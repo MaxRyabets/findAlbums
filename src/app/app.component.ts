@@ -1,9 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import { AlbumsService } from './services/albums.service';
+import { AlbumsService } from './albums/shared/albums.service';
 import {Subscription} from 'rxjs';
-import {AlbumTracks, ITunesAlbum, ITunesAlbums} from './components/itunes-album/shared/itunes-albums.interfaces';
-import {DeezerAlbum, DeezerAlbums} from './components/deezer-album/shared/deezer-albums.interfaces';
-import {Artist} from './shared/artist.interface';
+import {AlbumTracks, ITunesAlbum, ITunesAlbums} from './albums/itunes-album/shared/itunes-albums.interfaces';
+import {DeezerAlbum, DeezerAlbums} from './albums/deezer-album/shared/deezer-albums.interfaces';
+import {Artist} from './albums/artist/artist.interface';
 
 @Component({
   selector: 'app-root',

@@ -1,4 +1,4 @@
-import {Artist} from '../../../shared/artist.interface';
+import {Artist} from '../../artist/artist.interface';
 
 export interface DeezerAlbums {
   data: DeezerAlbum;
