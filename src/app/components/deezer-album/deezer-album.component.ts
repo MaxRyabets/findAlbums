@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {DeezerAlbum, DeezerAlbums} from '../../shared/interfaces';
 import {DeezerAlbumService} from './shared/deezer-album.service';
 import {NEXT_PREV} from '../shared/enum-next-prev';
+import {DeezerAlbum, DeezerAlbums} from './shared/deezer-albums.interfaces';
 
 @Component({
   selector: 'app-deezer-album',

@@ -2,3 +2,28 @@
   margin-top: 25px;
   margin-bottom: 20px;
 }
+
+:host ::ng-deep app-deezer-album .row-container,
+  ::ng-deep app-itunes-album .row-container {
+  margin-top: 15px;
+}
+
+:host ::ng-deep app-deezer-album .col-artist-image,
+  ::ng-deep app-deezer-album h3,
+  ::ng-deep app-itunes-album .col-artist-image,
+  ::ng-deep app-itunes-album h3{
+  text-align: center;
+}
+
+:host ::ng-deep app-deezer-album .row-albums,
+  ::ng-deep app-itunes-album .row-albums {
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+:host ::ng-deep app-deezer-album .row-albums:hover,
+::ng-deep app-itunes-album .row-albums:hover {
+  border-radius: 2px;
+  background-color: #17a2b8;
+  color: white;
+}

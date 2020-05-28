@@ -1,15 +1,12 @@
-<div class="row">
+<div class="row row-container">
   <div class="col">
-    <h5>Deezer</h5>
+    <h3>Deezer Albums</h3>
     <div
       *ngFor="let deezerAlbum of deezerAlbums | sortDeezerAlbumsTitle; let idx = index"
       (click)="getTracks(deezerAlbum.id, $event)"
-
-      class="row">
-      <div class="col">
-        <p>Cover :
-          <img src="{{deezerAlbum.cover}}" alt="{{idx}} + 1">
-        </p>
+      class="row row-albums">
+      <div class="col col-artist-image">
+        <img src="{{deezerAlbum.cover}}" alt="{{idx}} + 1">
       </div>
       <div class="col">
         <p>Title:

@@ -1,8 +1,9 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Subscription} from 'rxjs';
-import {DeezerAlbums, ITunesAlbums} from '../../shared/interfaces';
 import {AlbumsService} from '../../services/albums.service';
+import {DeezerAlbums} from '../deezer-album/shared/deezer-albums.interfaces';
+import {ITunesAlbums} from '../itunes-album/shared/itunes-albums.interfaces';
 
 @Component({
   selector: 'app-album-form',

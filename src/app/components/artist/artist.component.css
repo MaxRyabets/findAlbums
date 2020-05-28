@@ -1,0 +1,9 @@
+.row {
+  margin-top: 10px;
+}
+.col .col-artist-image {
+  text-align: right;
+}
+img {
+  border-radius: 3px;
+}

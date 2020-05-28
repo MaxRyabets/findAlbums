@@ -1,23 +1,25 @@
 import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs';
-import {ITunesAlbum, ITunesAlbums} from '../../../shared/interfaces';
+import {ITunesAlbum, ITunesAlbums} from './itunes-albums.interfaces';
 import {HttpClient} from '@angular/common/http';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
+
 export class ItunesAlbumService {
 
-  private proxy = 'https://cors-anywhere.herokuapp.com/';
   constructor(
     private http: HttpClient
   ) { }
 
   private urlITunes = 'https://itunes.apple.com/search?term=';
-  getDataITunesAlbums(proxy: string, name: string): Observable<ITunesAlbums> {
-    return this.http.get<ITunesAlbums>(`${proxy}${this.urlITunes}${name}&entity=album&limit=25`);
+  getDataITunesAlbums(name: string): Observable<ITunesAlbums> {
+    return this.http.get<ITunesAlbums>(`${this.urlITunes}${name}&entity=album&limit=25`);
   }
 
   getNextDataITunesAlbums(name: string, limit: number): Observable<ITunesAlbums> {
-    return this.http.get<ITunesAlbums>(`${this.proxy}${this.urlITunes}${name}&entity=album&limit=${limit}`);
+    return this.http.get<ITunesAlbums>(`${this.urlITunes}${name}&entity=album&limit=${limit}`);
   }
 
   createITunesAlbum(dataAlbum: ITunesAlbum){

@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {NEXT_PREV} from '../shared/enum-next-prev';
 import {ItunesAlbumService} from './shared/itunes-album.service';
-import {ITunesAlbum, ITunesAlbums} from '../../shared/interfaces';
+import {ITunesAlbum, ITunesAlbums} from './shared/itunes-albums.interfaces';
 
 @Component({
   selector: 'app-itunes-album',
@@ -17,7 +17,7 @@ export class ItunesAlbumComponent implements OnInit {
   dataITunesPrev = '';
   NEXT_PREV = NEXT_PREV;
   constructor(
-    private itunesAlbum: ItunesAlbumService
+    private itunesAlbumService: ItunesAlbumService
   ) { }
 
   ngOnInit(): void { }
@@ -28,7 +28,8 @@ export class ItunesAlbumComponent implements OnInit {
     } else {
       this.itunesPageSize += 25;
     }
-    this.itunesAlbum.getNextDataITunesAlbums(this.querySearch, this.itunesPageSize).subscribe(dataITunesAlbums => {
+    this.itunesAlbumService.getNextDataITunesAlbums(this.querySearch, this.itunesPageSize)
+      .subscribe(dataITunesAlbums => {
       this.addITunesAlbums.emit(dataITunesAlbums);
       // number 5 - error rate of the total number of pages
       if (this.itunesPageSize <= dataITunesAlbums.resultCount + 5 && this.itunesPageSize > 0) {

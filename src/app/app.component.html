@@ -6,20 +6,7 @@
   (itunesPageSize)="updateITunesPageSize($event)"
   ></app-album-form>
   <div *ngIf="itunesAlbums.length && deezerAlbums.length">
-    <div class="row">
-      <div class="col">
-        <div *ngFor="let curArtist of currentArtiest let idx = index">
-          <div class="row">
-            <div class="col">
-              <img src="{{curArtist.picture}}" alt="{{idx}}">
-            </div>
-            <div class="col">
-              <h6>Name: {{curArtist.name}}</h6>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <app-artist [currentArtiest]="currentArtiest"></app-artist>
     <app-deezer-album
       [deezerAlbums]="deezerAlbums"
       [dataNextDeezerAlbums]="dataNextDeezerAlbums"

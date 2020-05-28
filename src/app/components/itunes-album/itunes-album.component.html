@@ -1,12 +1,10 @@
-<div class="row">
+<div class="row row-container">
   <div class="col">
-    <h5>ITunes</h5>
+    <h3>ITunes</h3>
     <div *ngFor="let itunesAlbum of itunesAlbums | sortItunesAlbumsTitle let idx = index">
-      <div class="row">
-        <div class="col">
-          <p>Cover :
-            <img src="{{itunesAlbum.artworkUrl60}}" alt="{{idx}} + 1">
-          </p>
+      <div class="row row-albums">
+        <div class="col col-artist-image">
+          <img src="{{itunesAlbum.artworkUrl60}}" alt="{{idx}} + 1">
         </div>
         <div class="col">
           <p>Title:

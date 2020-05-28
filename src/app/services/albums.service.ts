@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpClientJsonpModule} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {DeezerAlbum, DeezerAlbums, ITunesAlbum, ITunesAlbums} from '../shared/interfaces';
+import {ITunesAlbum, ITunesAlbums} from '../components/itunes-album/shared/itunes-albums.interfaces';
 import {DeezerAlbumService} from '../components/deezer-album/shared/deezer-album.service';
 import {ItunesAlbumService} from '../components/itunes-album/shared/itunes-album.service';
+import {DeezerAlbum, DeezerAlbums} from '../components/deezer-album/shared/deezer-albums.interfaces';
 
 
 @Injectable({
@@ -13,41 +14,30 @@ import {ItunesAlbumService} from '../components/itunes-album/shared/itunes-album
 export class AlbumsService {
   constructor(
     private http: HttpClient,
-    private deezerAlbum: DeezerAlbumService,
-    private itunesAlbum: ItunesAlbumService,
-    private httpJsonp: HttpClientJsonpModule
+    private deezerAlbumService: DeezerAlbumService,
+    private itunesAlbumService: ItunesAlbumService,
   ) { }
-  private proxy = 'https://cors-anywhere.herokuapp.com/';
-  private urlDeezer = 'https://api.deezer.com/search/album';
+  /*private urlDeezer = 'https://api.deezer.com/search/album';
+  private ulrTrackDeezer = 'https://api.deezer.com/album/';*/
 
-  private ulrTrackDeezer = 'https://api.deezer.com/album/';
-
-  getData(): Observable<any>{
-    const url = 'https://api.deezer.com/search/album?q=eminem';
-    return this.http.jsonp(url, 'callback').pipe(
-      map(res => {
-        return res;
-      })
-    );
-  }
   getDataDeezerAlbums(name: string): Observable<DeezerAlbums> {
-        return this.deezerAlbum.getDataDeezerAlbums(this.proxy, name);
+        return this.deezerAlbumService.getDataDeezerAlbums(name);
   }
 
   getDataITunesAlbums(name: string): Observable<ITunesAlbums> {
-    return this.itunesAlbum.getDataITunesAlbums(this.proxy, name);
+    return this.itunesAlbumService.getDataITunesAlbums(name);
   }
 
   createDeezerAlbum(dataAlbum: DeezerAlbum){
-    return this.deezerAlbum.createDeezerAlbum(dataAlbum);
+    return this.deezerAlbumService.createDeezerAlbum(dataAlbum);
   }
 
   createITunesAlbum(dataAlbum: ITunesAlbum){
-    return this.itunesAlbum.createITunesAlbum(dataAlbum);
+    return this.itunesAlbumService.createITunesAlbum(dataAlbum);
   }
 
-  getAlbumsTracks(id: string): Observable<any> {
-    console.log(`${this.proxy}${this.urlDeezer}/${id}/tracks`);
-    return this.http.get(`${this.proxy}${this.ulrTrackDeezer}${id}/tracks`);
-  }
+  /*getAlbumsTracks(id: string): Observable<any> {
+    console.log(`${this.urlDeezer}/${id}/tracks`);
+    return this.http.get(`${this.ulrTrackDeezer}${id}/tracks`);
+  }*/
 }

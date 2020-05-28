@@ -1,22 +1,24 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {DeezerAlbum, DeezerAlbums} from '../../../shared/interfaces';
+import {DeezerAlbum, DeezerAlbums} from './deezer-albums.interfaces';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
+
 export class DeezerAlbumService {
-  private proxy = 'https://cors-anywhere.herokuapp.com/';
   constructor(
     private http: HttpClient
   ) { }
 
   private urlDeezer = 'https://api.deezer.com/search/album';
-  getDataDeezerAlbums(proxy: string, name: string): Observable<DeezerAlbums> {
-    return this.http.get<DeezerAlbums>(`${proxy}${this.urlDeezer}?q=${name}`);
+  getDataDeezerAlbums(name: string): Observable<DeezerAlbums> {
+    return this.http.jsonp<DeezerAlbums>(`${this.urlDeezer}?q=${name}&output=jsonp`, 'callback');
   }
 
   getNextDataDeezerAlbums(urlNextData: string): Observable<DeezerAlbums> {
-    return this.http.get<DeezerAlbums>(`${this.proxy}${urlNextData}`);
+    return this.http.jsonp<DeezerAlbums>(`${urlNextData}&output=jsonp`, 'callback');
   }
 
   createDeezerAlbum(dataAlbum: DeezerAlbum){

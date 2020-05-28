@@ -1,7 +1,9 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { AlbumsService } from './services/albums.service';
-import {Observable, Subscription} from 'rxjs';
-import {AlbumTracks, Artist, DeezerAlbum, DeezerAlbums, ITunesAlbum, ITunesAlbums} from './shared/interfaces';
+import {Subscription} from 'rxjs';
+import {AlbumTracks, ITunesAlbum, ITunesAlbums} from './components/itunes-album/shared/itunes-albums.interfaces';
+import {DeezerAlbum, DeezerAlbums} from './components/deezer-album/shared/deezer-albums.interfaces';
+import {Artist} from './shared/artist.interface';
 
 @Component({
   selector: 'app-root',
@@ -22,15 +24,9 @@ export class AppComponent implements OnInit, OnDestroy{
   albumTracks: AlbumTracks[] = [];
   querySearch: string;
   itunesPageSize: number;
-  results: Observable<DeezerAlbum[]>;
   artistName: string;
 
   ngOnInit(): void {}
-
-  private testy(){
-    this.results = this.albumsService.getData();
-    console.log('This is test', this.results);
-  }
 
   updateDeezerAlbums(dataDeezerAlbums: DeezerAlbums) {
     this.deezerAlbums = this.albumsService.createDeezerAlbum(dataDeezerAlbums.data);

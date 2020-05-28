@@ -1,0 +1,14 @@
+<div class="row">
+  <div class="col">
+    <div *ngFor="let curArtist of currentArtiest let idx = index">
+      <div class="row">
+        <div class="col col-artist-image">
+          <img src="{{curArtist.picture}}" alt="{{idx}}">
+        </div>
+        <div class="col">
+          <h3>Artist Name: {{curArtist.name}}</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
