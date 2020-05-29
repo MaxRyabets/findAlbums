@@ -1,0 +1,8 @@
+::ng-deep .mat-expansion-panel-header
+{
+  height: 100px !important;
+}
+
+::ng-deep .mat-expansion-panel{
+  margin-bottom: 10px !important;
+}

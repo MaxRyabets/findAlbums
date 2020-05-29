@@ -2,24 +2,24 @@ import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs';
 import {ITunesAlbum, ITunesAlbums} from './itunes-albums.interfaces';
 import {HttpClient} from '@angular/common/http';
+import {environment} from '../../../../environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
 })
 
-export class ItunesAlbumService {
+export class ItunesAlbumsService {
 
   constructor(
     private http: HttpClient
   ) { }
 
-  private urlITunes = 'https://itunes.apple.com/search?term=';
   getDataITunesAlbums(name: string): Observable<ITunesAlbums> {
-    return this.http.get<ITunesAlbums>(`${this.urlITunes}${name}&entity=album&limit=25`);
+    return this.http.get<ITunesAlbums>(`${environment.itunesUrl}search?term=${name}&entity=album&limit=25`);
   }
 
   getNextDataITunesAlbums(name: string, limit: number): Observable<ITunesAlbums> {
-    return this.http.get<ITunesAlbums>(`${this.urlITunes}${name}&entity=album&limit=${limit}`);
+    return this.http.get<ITunesAlbums>(`${environment.itunesUrl}search?term=${name}&entity=album&limit=${limit}`);
   }
 
   createITunesAlbum(dataAlbum: ITunesAlbum){

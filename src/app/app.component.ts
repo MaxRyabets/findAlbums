@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import { AlbumsService } from './albums/shared/albums.service';
 import {Subscription} from 'rxjs';
 import {AlbumTracks, ITunesAlbum, ITunesAlbums} from './albums/itunes-album/shared/itunes-albums.interfaces';
-import {DeezerAlbum, DeezerAlbums} from './albums/deezer-album/shared/deezer-albums.interfaces';
+import {DeezerAlbum, DeezerAlbums} from './albums/deezer-albums/shared/deezer-albums.interfaces';
 import {Artist} from './albums/artist/artist.interface';
 
 @Component({
@@ -52,14 +52,6 @@ export class AppComponent implements OnInit, OnDestroy{
 
   updateITunesPageSize($event: number) {
     this.itunesPageSize = $event;
-  }
-
-  getTracks(id: number, $event: MouseEvent) {
-    // @ts-ignore
-    this.dSub = this.albumsService.getAlbumsTracks(id).subscribe(tracks => {
-      console.log(tracks);
-      this.albumTracks.push(tracks.data);
-    });
   }
 
   ngOnDestroy() {

@@ -1,14 +1,14 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {NEXT_PREV} from '../shared/enum-next-prev';
-import {ItunesAlbumService} from './shared/itunes-album.service';
+import {ItunesAlbumsService} from './shared/itunes-albums.service';
 import {ITunesAlbum, ITunesAlbums} from './shared/itunes-albums.interfaces';
 
 @Component({
-  selector: 'app-itunes-album',
-  templateUrl: './itunes-album.component.html',
-  styleUrls: ['./itunes-album.component.css']
+  selector: 'app-itunes-albums',
+  templateUrl: './itunes-albums.component.html',
+  styleUrls: ['./itunes-albums.component.css']
 })
-export class ItunesAlbumComponent implements OnInit {
+export class ItunesAlbumsComponent implements OnInit {
 
   @Input() querySearch: string;
   @Input() itunesAlbums: ITunesAlbum[];
@@ -17,7 +17,7 @@ export class ItunesAlbumComponent implements OnInit {
   dataITunesPrev = '';
   NEXT_PREV = NEXT_PREV;
   constructor(
-    private itunesAlbumService: ItunesAlbumService
+    private itunesAlbumService: ItunesAlbumsService
   ) { }
 
   ngOnInit(): void { }
@@ -36,7 +36,6 @@ export class ItunesAlbumComponent implements OnInit {
         this.itunesAlbums = this.itunesAlbums.filter((album, index) => {
           return index >= this.itunesPageSize;
         });
-        console.log('test', this.itunesAlbums, this.itunesPageSize);
       } else {
         this.itunesAlbums = this.itunesAlbums.filter((album, index) => {
           return index <= this.itunesPageSize && index >= this.itunesPageSize - 25;

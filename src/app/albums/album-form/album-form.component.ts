@@ -2,7 +2,7 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Subscription} from 'rxjs';
 import {AlbumsService} from '../shared/albums.service';
-import {DeezerAlbums} from '../deezer-album/shared/deezer-albums.interfaces';
+import {DeezerAlbums} from '../deezer-albums/shared/deezer-albums.interfaces';
 import {ITunesAlbums} from '../itunes-album/shared/itunes-albums.interfaces';
 
 @Component({

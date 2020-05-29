@@ -7,16 +7,16 @@
   ></app-album-form>
   <div *ngIf="itunesAlbums.length && deezerAlbums.length">
     <app-artist [currentArtiest]="currentArtiest"></app-artist>
-    <app-deezer-album
+    <app-deezer-albums
       [deezerAlbums]="deezerAlbums"
       [dataNextDeezerAlbums]="dataNextDeezerAlbums"
       (addDeezAlbums)="updateDeezerAlbums($event)"
-    ></app-deezer-album>
-    <app-itunes-album
+    ></app-deezer-albums>
+    <app-itunes-albums
       [querySearch]="querySearch"
       [itunesPageSize]="itunesPageSize"
       [itunesAlbums]="itunesAlbums"
       (addITunesAlbums)="updateITunesAlbums($event)"
-    ></app-itunes-album>
+    ></app-itunes-albums>
   </div>
 </div>

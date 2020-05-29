@@ -1,23 +1,25 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {DeezerAlbumService} from './shared/deezer-album.service';
+import {DeezerAlbumsService} from './shared/deezer-albums.service';
 import {NEXT_PREV} from '../shared/enum-next-prev';
 import {DeezerAlbum, DeezerAlbums} from './shared/deezer-albums.interfaces';
 
 @Component({
-  selector: 'app-deezer-album',
-  templateUrl: './deezer-album.component.html',
-  styleUrls: ['./deezer-album.component.css']
+  selector: 'app-deezer-albums',
+  templateUrl: './deezer-albums.component.html',
+  styleUrls: ['./deezer-albums.component.css']
 })
-export class DeezerAlbumComponent implements OnInit {
+export class DeezerAlbumsComponent implements OnInit {
   @Input() deezerAlbums: DeezerAlbum[];
   @Input() dataNextDeezerAlbums: string;
   @Output() addDeezAlbums: EventEmitter<DeezerAlbums> = new EventEmitter<DeezerAlbums>();
 
   NEXT_PREV = NEXT_PREV;
   dataDeezerPrevAlbums = '';
+  idAlbumTracks: number;
+  deezerAlbumTracklist: string;
 
   constructor(
-    private deezerAlbum: DeezerAlbumService
+    private deezerAlbum: DeezerAlbumsService
   ) { }
 
   ngOnInit(): void {}
@@ -35,11 +37,8 @@ export class DeezerAlbumComponent implements OnInit {
     });
   }
 
-  getTracks(id: number, $event: MouseEvent) {
-    // @ts-ignore
-    this.dSub = this.albumsService.getAlbumsTracks(id).subscribe(tracks => {
-      console.log(tracks);
-      // this.albumTracks.push(tracks.data);
-    });
+  getAlbumTracks(tracklist: string, id: number) {
+    this.idAlbumTracks = id;
+    this.deezerAlbumTracklist = tracklist;
   }
 }

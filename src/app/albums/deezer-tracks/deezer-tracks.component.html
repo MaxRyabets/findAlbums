@@ -1,0 +1,19 @@
+<mat-accordion>
+  <mat-expansion-panel *ngFor="let deezerAlbumsTrack of deezerAlbumsTracks">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Title: {{deezerAlbumsTrack.title}}
+      </mat-panel-title>
+      <mat-panel-description>
+        <audio controls>
+          <source src="{{deezerAlbumsTrack.preview}}" type="audio/mpeg">
+        </audio>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <p>Disk number: {{deezerAlbumsTrack.disk_number}}</p>
+    <p>Duration: {{deezerAlbumsTrack.duration}}</p>
+    <p>Track position: {{deezerAlbumsTrack.track_position}}</p>
+    <p>Link: {{deezerAlbumsTrack.link}}</p>
+  </mat-expansion-panel>
+</mat-accordion>
+

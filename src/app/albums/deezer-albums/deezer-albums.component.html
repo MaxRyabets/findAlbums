@@ -3,18 +3,24 @@
     <h4>Deezer Albums</h4>
     <div
       *ngFor="let deezerAlbum of deezerAlbums | sortDeezerAlbumsTitle; let idx = index"
-      (click)="getTracks(deezerAlbum.id, $event)"
+      (click)="getAlbumTracks(deezerAlbum.tracklist, deezerAlbum.id)"
       class="row row-albums">
       <div class="col col-artist-image">
         <img src="{{deezerAlbum.cover}}" alt="{{idx}} + 1">
       </div>
-      <div class="col">
+      <div class="col col-content">
         <p>Title:
           {{deezerAlbum.title}}
         </p>
         <p>Explicit lyrics:
           {{deezerAlbum.explicit_lyrics ? 'Yes' : 'No'}}
         </p>
+        <div *ngIf="deezerAlbumTracklist && idAlbumTracks === deezerAlbum.id">
+          <app-deezer-tracks
+            [deezerAlbumTracklist]="deezerAlbumTracklist"
+          ></app-deezer-tracks>
+        </div>
+
       </div>
     </div>
     <div class="row">

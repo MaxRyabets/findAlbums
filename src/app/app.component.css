@@ -3,27 +3,35 @@
   margin-bottom: 20px;
 }
 
-:host ::ng-deep app-deezer-album .row-container,
-  ::ng-deep app-itunes-album .row-container {
+:host ::ng-deep app-deezer-albums .row-container,
+  ::ng-deep app-itunes-albums .row-container {
   margin-top: 20px;
 }
 
-:host ::ng-deep app-deezer-album .col-artist-image,
-  ::ng-deep app-deezer-album h4,
-  ::ng-deep app-itunes-album .col-artist-image,
-  ::ng-deep app-itunes-album h4 {
+:host ::ng-deep app-deezer-albums .col-artist-image,
+  ::ng-deep app-deezer-albums h4,
+  ::ng-deep app-itunes-albums .col-artist-image,
+  ::ng-deep app-itunes-albums h4 {
   text-align: center;
 }
 
-:host ::ng-deep app-deezer-album .row-albums,
-  ::ng-deep app-itunes-album .row-albums {
+:host ::ng-deep app-deezer-albums .col-artist-image,
+  ::ng-deep ::ng-deep app-deezer-albums .col-content,
+  ::ng-deep app-itunes-albums .col-artist-image,
+  ::ng-deep ::ng-deep app-itunes-albums .col-content {
+  margin-top: 10px;
+}
+
+:host ::ng-deep app-deezer-albums .row-albums,
+  ::ng-deep app-itunes-albums .row-albums {
   margin-top: 20px;
   margin-bottom: 10px;
 }
 
-:host ::ng-deep app-deezer-album .row-albums:hover,
-::ng-deep app-itunes-album .row-albums:hover {
+:host ::ng-deep app-deezer-albums .row-albums:hover,
+::ng-deep app-itunes-albums .row-albums:hover {
   border-radius: 2px;
   background-color: #17a2b8;
   color: white;
 }
+
